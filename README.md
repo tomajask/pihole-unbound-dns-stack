@@ -32,6 +32,14 @@ In order to accomplish our goals, we use:
 - [Pihole](https://github.com/pi-hole/pi-hole) is a [DNS sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole) that protects your devices from unwanted content without installing any client-side software. It block malicious websites and ads.
 - [Unbound](https://github.com/NLnetLabs/unbound) is a validating, recursive, and caching DNS resolver.
 
+## Performance
+```shell
+            test1   test2   test3   test4   test5   test6   test7   test8   test9   test10  Average
+pihole      2 ms    3 ms    2 ms    3 ms    2 ms    2 ms    3 ms    2 ms    2 ms    2 ms      2.30
+quad9       12 ms   12 ms   11 ms   12 ms   11 ms   10 ms   11 ms   11 ms   11 ms   11 ms     11.20
+google      11 ms   11 ms   11 ms   13 ms   11 ms   12 ms   11 ms   11 ms   11 ms   11 ms     11.30
+cloudflare  22 ms   22 ms   22 ms   22 ms   22 ms   22 ms   20 ms   30 ms   34 ms   20 ms     23.60
+```
 ## Support
 
 Leave a ⭐ if you find this project helpful!
