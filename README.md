@@ -60,7 +60,6 @@ cd pihole-unbound-dns-stack
 ```shell
 cp .env.example .env
 echo "WEBPASSWORD=`openssl rand -base64 32`" >> .env
-echo "USER=${USER}" >> .env
 chmod 600 .env
 ```
 
