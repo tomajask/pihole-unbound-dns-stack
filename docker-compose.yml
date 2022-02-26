@@ -1,0 +1,56 @@
+version: "3.7"
+
+networks:
+  private_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.2.0.0/24
+
+services:
+  unbound:
+    image: mvance/unbound:latest
+    container_name: unbound
+    hostname: unbound
+    restart: unless-stopped
+    volumes:
+      - "./unbound/unbound.conf:/opt/unbound/etc/unbound/unbound.conf:ro"
+      - "./unbound/a-records.conf:/opt/unbound/etc/unbound/a-records.conf:ro"
+      - "./unbound/forward-records.conf:/opt/unbound/etc/unbound/forward-records.conf:ro"
+      - "./unbound/srv-records.conf:/opt/unbound/etc/unbound/srv-records.conf:ro"
+    networks:
+      private_network:
+        ipv4_address: 10.2.0.200
+
+  pihole:
+    depends_on: [unbound]
+    container_name: pihole
+    image: pihole/pihole:latest
+    hostname: pihole
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+      # - "67:67/udp"                                 # Optional for DHCP server
+    dns:
+      - 127.0.0.1
+      - 10.2.0.200                                    # Points to unbound
+    environment:
+      TZ: "${TZ}"
+      ServerIP: 10.1.0.100                            # Internal IP of pihole
+      PIHOLE_DNS_: 10.2.0.200;10.2.0.200              # Unbound IP, If we don't specify two, it will auto pick google.
+      DNSSEC: "false"                                 # Don't use DNSSEC
+      # CUSTOM_CACHE_SIZE: 0
+      WEBPASSWORD: ${WEBPASSWORD}
+      DNS_FQDN_REQUIRED: "true"                       # Never forward non-FQDN A and AAAA queries
+      DNS_BOGUS_PRIV: "true"                          # Never forward reverse lookups for private IP ranges
+    volumes:
+      - ".pihole/etc-pihole/:/etc/pihole/"
+      - ".pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+      - ".pihole/pihole.log:/var/log/pihole.log"
+    cap_add:
+      - NET_ADMIN
+    networks:
+      private_network:
+        ipv4_address: 10.2.0.100
