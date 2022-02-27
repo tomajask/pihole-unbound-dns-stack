@@ -85,11 +85,11 @@ cp unbound-config-examples/srv-records.example.conf ./unbound/srv-records.conf
 cp unbound-config-examples/unbound.example.conf ./unbound/unbound.conf
 ```
 There are 2 options for Unbound:
-1. Recursive mode - Unbound will act as a Recursive DNS server, the DNS traffic will not be encrypted
+1. **Recursive mode** - Unbound will act as a Recursive DNS server, the DNS traffic will not be encrypted
 ```shell
 touch ./unbound/forward-records.conf
 ```
-2. Fowarding mode - Unbound will act as a forwarding DNS server, it will use DNS over TLS when querying upstream DNS servers
+2. **Fowarding mode** - Unbound will act as a forwarding DNS server, it will use DNS over TLS when querying upstream DNS servers
 ```shell
 cp unbound-config-examples/forward-records.example.conf ./unbound/forward-records.conf
 ```
@@ -127,7 +127,7 @@ You should be able to access now the Pihole Admin panel on `<ip_address_of_the_s
 
 ### Additional blocklists
 
-The default list of blocked domain provided by Pihole is quite small. If you'd like to add more domains, then visit https://firebog.net/ and add them in the Pihole Admin panel: `Panel -> Group Management -> Adlists -> Add a new addlist`.
+The default list of blocked domain provided by Pihole is quite small. If you'd like to add more domains, then visit https://firebog.net/ & https://phishing.army/ and add them in the Pihole Admin panel: `Panel -> Group Management -> Adlists -> Add a new addlist`.
 
 ### Custom Upstream DNS Resolvers
 
