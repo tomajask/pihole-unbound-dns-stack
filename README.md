@@ -81,11 +81,19 @@ touch ./pihole/pihole.log
 ```shell
 mkdir -p ./unbound
 cp unbound-config-examples/a-records.example.conf ./unbound/a-records.conf
-cp unbound-config-examples/forward-records.example.conf ./unbound/forward-records.conf
 cp unbound-config-examples/srv-records.example.conf ./unbound/srv-records.conf
 cp unbound-config-examples/unbound.example.conf ./unbound/unbound.conf
 ```
-
+There are 2 options for Unbound:
+1. Recursive mode - Unbound will act as a Recursive DNS server, the DNS traffic will not be encrypted
+```shell
+touch ./unbound/forward-records.conf
+```
+2. Fowarding mode - Unbound will act as a forwarding DNS server, it will use DNS over TLS when querying upstream DNS servers
+```shell
+cp unbound-config-examples/forward-records.example.conf ./unbound/forward-records.conf
+```
+If you are not sure which one to use, see discussions: [here](https://discourse.pi-hole.net/t/recursive-dns-server-unbound-or-dns-over-https/11890/9), [here](https://discourse.pi-hole.net/t/unbound-using-tls-not-working-as-recursive-dns-server-anymore/31796), [here](https://www.netmeister.org/blog/doh-dot-dnssec.html)
 ### Check whether port `53` if available:
 ```shell
 sudo lsof -i -P -n | grep ':53 (LISTEN)'
